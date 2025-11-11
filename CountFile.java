@@ -2,16 +2,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.Semaphore;
 
 public class CountFile implements Runnable {
-    Semaphore mutex;
+
     File file;
     String pattern;
 
-    public CountFile(Semaphore mutex, File file, String pattern)
+    public CountFile(File file, String pattern)
     {
-        this.mutex = mutex;
         this.file = file;
         this.pattern = pattern;
     }
@@ -21,9 +19,9 @@ public class CountFile implements Runnable {
         long count;
         try {
             count = countInFile(file, pattern);
-            mutex.acquire();
+            DnaConcurrentMain.mutex.acquire();
             DnaConcurrentMain.total += count;
-            mutex.release();
+            DnaConcurrentMain.mutex.release();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

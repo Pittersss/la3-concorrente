@@ -30,7 +30,7 @@ public class DnaConcurrentMain {
 
         Thread[] threads = new Thread[files.length];
 	    for (int i = 0; i < files.length; i++) {
-            threads[i] = new Thread(new CountFile(mutex, files[i], pattern));
+            threads[i] = new Thread(new CountFile(files[i], pattern));
             threads[i].start();
         }
 
